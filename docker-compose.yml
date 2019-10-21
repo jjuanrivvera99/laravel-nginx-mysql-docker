@@ -1,0 +1,103 @@
+version: '3.7'
+
+services:
+
+  app:
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+    container_name: app
+    image: jjuanrivvera99/laravel:mysql-alpine
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - ./core:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  web:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  queue:
+    container_name: queue
+    restart: always
+    depends_on:
+      - redis
+    image: jjuanrivvera99/laravel:mysql-alpine
+    environment:
+      CONTAINER_ROLE: "queue"
+    volumes:
+      - "./core:/var/www/"
+
+  scheduler:
+    container_name: scheduler
+    restart: always
+    depends_on:
+      - redis
+    image: jjuanrivvera99/laravel:mysql-alpine
+    environment:
+      CONTAINER_ROLE: "scheduler"
+    volumes:
+      - "./core:/var/www/"
+
+  node:
+    image: jjuanrivvera99/node:alpine
+    restart: always
+    build:
+      context: docker/node
+      dockerfile: Dockerfile
+    container_name: node
+    volumes:
+      - ./core:/var/www
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: mysql
+    restart: always
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - mysql-data:/var/lib/mysql/
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mysql/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+
+  redis-data:
+    driver: local

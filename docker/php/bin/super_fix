@@ -1,0 +1,10 @@
+rm -rf /var/www/vendor
+composer clearcache
+composer install
+composer du
+composer dump-auto
+composer dump-autoload
+composer update
+php artisan cache:clear
+php artisan config:clear
+php artisan package:discover

@@ -41,6 +41,8 @@ services:
       CONTAINER_ROLE: "queue"
     volumes:
       - "./core:/var/www/"
+    networks:
+      - app-network
 
   scheduler:
     container_name: scheduler
@@ -52,6 +54,8 @@ services:
       CONTAINER_ROLE: "scheduler"
     volumes:
       - "./core:/var/www/"
+    networks:
+      - app-network
 
   node:
     image: jjuanrivvera99/node:alpine

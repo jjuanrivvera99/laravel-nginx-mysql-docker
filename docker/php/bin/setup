@@ -2,3 +2,4 @@
 
 cp .env.example .env
 composer install -d /var/www
+php /var/www/artisan key:generate

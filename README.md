@@ -19,6 +19,7 @@ Take the following steps:
 - change directory: 'cd laravel-nginx-mysql-docker'
 - run command: 'docker-compose pull'
 - run command: 'docker-compose up -d'
+- run command: 'sudo chown -R 1000:1000 *'
 - run command: 'docker-compose exec app setup'
 - run command: 'docker-compose exec app permissions'
 - run command: 'docker-compose exec app fix'

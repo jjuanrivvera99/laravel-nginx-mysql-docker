@@ -24,6 +24,13 @@ Take the following steps:
 - run command: 'docker-compose exec app permissions'
 - run command: 'docker-compose exec app fix'
 
+Enable auth (Laravel 6):
+
+- run command: docker-compose exec app composer install laravel/ui
+- run command: docker-compose exec app php artisan ui vue --auth
+- run command: docker-compose exec node npm install
+- run command: docker-compose exec node npm run dev
+
 ## License
 
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

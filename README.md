@@ -7,7 +7,7 @@
 
 # Description
 
-[This](https://github.com/jjuanrivvera99/laravel-nginx-mysql-docker) is a laravel environment with docker-compose.
+[This](https://github.com/jjuanrivvera99/laravel-nginx-mysql-docker) is a complete laravel environment using docker-compose with the following services: nginx, queue daemon, redis, mysql, scheduler and node js.
 
 ## How to run this project
 
@@ -19,12 +19,11 @@ Take the following steps:
 - change directory: 'cd laravel-nginx-mysql-docker'
 - run command: 'docker-compose pull'
 - run command: 'docker-compose up -d'
-- run command: 'sudo chown -R 1000:1000 *'
 - run command: 'docker-compose exec app setup'
 - run command: 'docker-compose exec app permissions'
 - run command: 'docker-compose exec app fix'
 
-Enable auth (Laravel 6):
+Enable auth (Laravel 6+):
 
 - run command: docker-compose exec app composer install laravel/ui
 - run command: docker-compose exec app php artisan ui vue --auth

@@ -12,29 +12,26 @@ services:
     depends_on:
       - redis
     volumes:
-      - ./core:/var/www
+      - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
   web:
     image: nginx:alpine
-    container_name: nginx
     restart: always
-    tty: true
     depends_on:
       - app
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./core:/var/www
+      - ./:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/
     networks:
       - app-network
 
   queue:
-    container_name: queue
     restart: always
     depends_on:
       - redis
@@ -42,12 +39,11 @@ services:
     environment:
       CONTAINER_ROLE: "queue"
     volumes:
-      - "./core:/var/www/"
+      - "./:/var/www/"
     networks:
       - app-network
 
   scheduler:
-    container_name: scheduler
     restart: always
     depends_on:
       - redis
@@ -55,7 +51,7 @@ services:
     environment:
       CONTAINER_ROLE: "scheduler"
     volumes:
-      - "./core:/var/www/"
+      - "./:/var/www/"
     networks:
       - app-network
 
@@ -67,13 +63,11 @@ services:
       dockerfile: Dockerfile
     container_name: node
     volumes:
-      - ./core:/var/www
+      - ./:/var/www
 
   mysql:
     image: mysql:5.7.22
-    container_name: mysql
     restart: always
-    tty: true
     ports:
       - "3306:3306"
     environment:
@@ -87,7 +81,6 @@ services:
 
   redis:
     image: redis
-    container_name: redis
     restart: always
     ports:
       - 6379:6379

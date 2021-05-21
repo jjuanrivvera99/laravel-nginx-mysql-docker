@@ -2,27 +2,27 @@ version: '3.7'
 
 services:
 
-  app:
+  php:
     build:
       context: docker/php
       dockerfile: Dockerfile
     user: "1000:1000"
-    container_name: app
     image: jjuanrivvera99/laravel:mysql-alpine
     restart: always
     depends_on:
       - redis
+      - mysql
     volumes:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - app-network
 
-  web:
+  nginx:
     image: nginx:alpine
     restart: always
     depends_on:
-      - app
+      - php
     ports:
       - "80:80"
       - "443:443"
@@ -37,8 +37,7 @@ services:
     depends_on:
       - redis
     image: jjuanrivvera99/laravel:mysql-alpine
-    environment:
-      CONTAINER_ROLE: "queue"
+    command: sh -c "php artisan queue:work"
     volumes:
       - "./:/var/www/"
     networks:
@@ -49,20 +48,16 @@ services:
     depends_on:
       - redis
     image: jjuanrivvera99/laravel:mysql-alpine
-    environment:
-      CONTAINER_ROLE: "scheduler"
+    command: sh -c "while [ true ]; do php /var/www/artisan schedule:run --verbose --no-interaction && sleep 60; done"
     volumes:
       - "./:/var/www/"
     networks:
       - app-network
 
   node:
-    image: jjuanrivvera99/node:alpine
+    image: node:lts-alpine
     restart: always
-    build:
-      context: docker/node
-      dockerfile: Dockerfile
-    container_name: node
+    command: sh -c "tail -f /dev/null"
     volumes:
       - ./:/var/www
 

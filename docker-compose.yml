@@ -59,6 +59,7 @@ services:
     image: node:lts-alpine
     restart: always
     command: sh -c "tail -f /dev/null"
+    working_dir: /var/www
     volumes:
       - ./:/var/www
 

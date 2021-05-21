@@ -22,6 +22,7 @@ Take the following steps:
 - run command: 'docker-compose exec php sh -c "composer update -d /var/www" '
 - run command: 'docker-compose exec php sh -c "php /var/www/artisan key:generate" '
 - run command: 'docker-compose exec php sh -c "chmod 775 -R /var/www/storage" '
+- run command: 'docker-compose restart nginx'
 
 If your user UID is different from 1000 make sure HOST_UID env var it's correctly setup.
 

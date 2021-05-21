@@ -6,6 +6,7 @@ services:
     build:
       context: docker/php
       dockerfile: Dockerfile
+    user: "1000:1000"
     container_name: app
     image: jjuanrivvera99/laravel:mysql-alpine
     restart: always

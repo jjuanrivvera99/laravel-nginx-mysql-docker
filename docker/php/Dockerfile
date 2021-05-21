@@ -9,9 +9,12 @@ RUN docker-php-ext-install pdo pdo_mysql && \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+ARG HOST_UID=1000
+
+
 # Add user for laravel application
-RUN addgroup -g 1000 www
-RUN adduser -S -G www -u 1000 www
+RUN addgroup -g ${HOST_UID} www
+RUN adduser -S -G www -u ${HOST_UID} www
 
 # Copy helpers binaries
 RUN mkdir /tmp/bin

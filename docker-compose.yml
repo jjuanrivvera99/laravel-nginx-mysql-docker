@@ -6,7 +6,8 @@ services:
     build:
       context: docker/php
       dockerfile: Dockerfile
-    user: "1000:1000"
+      args:
+        HOST_UID: ${HOST_UID}
     image: jjuanrivvera99/laravel:mysql-alpine
     restart: always
     depends_on:

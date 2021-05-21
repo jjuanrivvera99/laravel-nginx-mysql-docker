@@ -17,10 +17,12 @@ Take the following steps:
 
 - clone this repository by executing the following command: 'git clone https://github.com/jjuanrivvera99/laravel-nginx-mysql-docker'
 - change directory: 'cd laravel-nginx-mysql-docker'
+- run command: 'cp .env.example .env'
 - run command: 'docker-compose up -d --build'
-- run command: 'docker-compose exec app setup'
-- run command: 'docker-compose exec app permissions'
-- run command: 'docker-compose exec app fix'
+- run command: 'docker-compose exec php setup'
+- run command: 'docker-compose exec php permissions'
+
+If your user UID is different from 1000 Make sure HOST_UID en var it's correctly setup.
 
 ## License
 

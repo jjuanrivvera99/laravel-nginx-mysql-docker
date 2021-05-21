@@ -22,7 +22,7 @@ Take the following steps:
 - run command: 'docker-compose exec php setup'
 - run command: 'docker-compose exec php permissions'
 
-If your user UID is different from 1000 Make sure HOST_UID en var it's correctly setup.
+If your user UID is different from 1000 make sure HOST_UID env var it's correctly setup.
 
 ## License
 
